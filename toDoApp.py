@@ -34,8 +34,13 @@ def AddItems(numofilnes):
     except:
         file.close()
 
-#def MarkItems():
+def MarkItems(listitems):
+    listitems()
+    MarkedLine = int(input("Which one you want to mark as completed: "))
+    file = open("to_do_list.txt", "r+")    
+    file.seek(MarkedLine)
 
+    file.close()
 
 #def ArchiveItems():
 
