@@ -1,12 +1,9 @@
 # ========== Functions ==========
 
 def CreateFile():
-    try:
-        file = open("to_do_list.txt", "a")              # If the file does not exist, it creates a new file
-        file.close()
-    except:
-        file.close()
-
+    file = open("to_do_list.txt", "a")              # If the file does not exist, it creates a new file
+    file.close()
+    
 def CountFileLines():
     file = open("to_do_list.txt", "r")
     NumOfLines = len(file.readlines())                  # Count the number of lines in the file
@@ -14,31 +11,29 @@ def CountFileLines():
     return NumOfLines
 
 def ListItems():
-    try:
-        file = open("to_do_list.txt", "r")              # Open the file in 'read' mode
-        Content = file.read()        
-        print("You saved the following to-do items:")
-        print(Content)
-        file.close()        
-    except:
-        file.close()
+    file = open("to_do_list.txt", "r")              # Open the file in 'read' mode
+    Content = file.read()        
+    print("You saved the following to-do items:")
+    print(Content)
+    file.close()        
 
 def AddItems(numofilnes):
-    try:
-        file = open("to_do_list.txt", "a")              # Open the file in 'append' mode        
-        NewContent = input("Add an item: ")
-        file.write(str(numofilnes+1) + ". " + "[ ] " + str(NewContent) + "\n")
-        file.close()
-        print("Item added.")
-        file.close()
-    except:
-        file.close()
-
+    file = open("to_do_list.txt", "a")              # Open the file in 'append' mode        
+    NewContent = input("Add an item: ")
+    file.write(str(numofilnes+1) + ". " + "[ ] " + str(NewContent) + "\n")
+    file.close()
+    print("Item added.")
+    file.close()
+    
 def MarkItems():
-    MarkedLine = int(input("Which one you want to mark as completed: "))
     file = open("to_do_list.txt", "r+")
     Lines = file.readlines()
     file.close()
+    MarkedLine = len(Lines) + 1
+    while MarkedLine > len(Lines) or MarkedLine < 1:
+        MarkedLine = int(input("Which one you want to mark as completed: "))
+        if MarkedLine > len(Lines) or MarkedLine <1:
+            print("There is no such index!")
     String = list(Lines[MarkedLine-1])
     String[4] = "x"
     Lines[MarkedLine-1] = "".join(String)
@@ -47,11 +42,15 @@ def MarkItems():
         file.write(Lines[i])
     file.close()
 
-def UnMarkItems():
-    MarkedLine = int(input("Which one you want to unmark as not completed: "))
-    file = open("to_do_list.txt", "r+")
+def UnMarkItems():    
+    file = open("to_do_list.txt", "r")
     Lines = file.readlines()
     file.close()
+    MarkedLine = len(Lines) + 1
+    while MarkedLine > len(Lines) or MarkedLine < 1:
+        MarkedLine = int(input("Which one you want to unmark as not completed: "))
+        if MarkedLine > len(Lines) or MarkedLine <1:
+            print("There is no such index!")
     String = list(Lines[MarkedLine-1])
     String[4] = " "
     Lines[MarkedLine-1] = "".join(String)
@@ -79,7 +78,7 @@ def InputCommand():
     #Command = input("Please specify a command [list, add, mark, archive]: ")
     while True:
         NumOfLines = CountFileLines()
-        Command = input("Please specify a command [list, add, mark, unmark, archive]: ")
+        Command = input("Please specify a command [list, add, mark, unmark, archive, exit]: ")
         if Command == "list" or Command == "List":
             ListItems()
         elif Command == "add" or Command == "Add":
@@ -92,8 +91,10 @@ def InputCommand():
             UnMarkItems()
         elif Command == "archive" or Command == "Archive":
             ArchiveItems()
+        elif Command == "exit" or Command == "Exit":
+            quit()
         else:
-            break
+            print("Unknown command!")
 
 
 # ========== Main ==========
