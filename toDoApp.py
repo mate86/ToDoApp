@@ -60,8 +60,19 @@ def UnMarkItems():
         file.write(Lines[i])
     file.close()
 
-#def ArchiveItems():
-
+def ArchiveItems():
+    print("All completed tasks got deleted.")
+    file = open("to_do_list.txt", "r+")
+    Lines = file.readlines()
+    file.close()
+    for i in range(len(Lines)):
+        String = list(Lines[i])
+        String[4] = " "
+        Lines[i] = "".join(String)
+    file = open("to_do_list.txt", "w")
+    for i in range(len(Lines)):
+        file.write(Lines[i])
+    file.close()
 
 def InputCommand():
     CreateFile()
